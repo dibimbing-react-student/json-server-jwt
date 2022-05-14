@@ -4,7 +4,7 @@
   "description": "Simple Fake API",
   "main": "main.js",
   "scripts": {
-    "start-json:server": "json-server --watch --no-cors ./database.json",
+    "start-json:server": "json-server --watch ./database.json",
     "start": "node server.js"
   },
   "author": "ME:)",
