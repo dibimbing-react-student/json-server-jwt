@@ -2,14 +2,12 @@ const fs = require("fs");
 const bodyParser = require("body-parser");
 const jsonServer = require("json-server");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 const server = jsonServer.create();
 const router = jsonServer.router("./database.json");
 const userdb = JSON.parse(fs.readFileSync("./users.json", "UTF-8"));
-const middlewares = jsonServer.defaults({ noCors: true });
 
-// set default middlewares (logger, static, cors and no-cache)
-server.use(middlewares);
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(jsonServer.defaults());
@@ -19,11 +17,15 @@ const SECRET_KEY = "123456789";
 const expiresIn = "1h";
 
 // cors
-server.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "*");
-    next();
-});
+server.use(
+    cors({
+        origin: true,
+        credentials: true,
+        preflightContinue: false,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    })
+);
+server.options('*', cors());
 
 // Create a token from a payload
 function createToken(payload) {
