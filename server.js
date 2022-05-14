@@ -6,7 +6,10 @@ const jwt = require("jsonwebtoken");
 const server = jsonServer.create();
 const router = jsonServer.router("./database.json");
 const userdb = JSON.parse(fs.readFileSync("./users.json", "UTF-8"));
+const middlewares = jsonServer.defaults({ noCors: true })
 
+// set default middlewares (logger, static, cors and no-cache)
+server.use(middlewares);
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(jsonServer.defaults());
