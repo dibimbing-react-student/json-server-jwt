@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const server = jsonServer.create();
 const router = jsonServer.router("./database.json");
 const userdb = JSON.parse(fs.readFileSync("./users.json", "UTF-8"));
-const middlewares = jsonServer.defaults({ noCors: true })
+const middlewares = jsonServer.defaults({ noCors: true });
 
 // set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
@@ -17,6 +17,13 @@ server.use(jsonServer.defaults());
 const SECRET_KEY = "123456789";
 
 const expiresIn = "1h";
+
+// cors
+server.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+    next();
+});
 
 // Create a token from a payload
 function createToken(payload) {
