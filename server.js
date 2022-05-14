@@ -28,7 +28,7 @@ function verifyToken(token) {
 }
 
 // Check if the user exists in database
-function isAuthenticated({ name, password }) {    
+function isAuthenticated({ name, password }) {
     return (
         userdb.findIndex(
             (user) => user.name === name && user.password === password
@@ -38,7 +38,7 @@ function isAuthenticated({ name, password }) {
 
 // Register New User
 server.post("/auth/register", (req, res) => {
-    console.log("register endpoint called; request body:");    
+    console.log("register endpoint called; request body:");
     const { name, password, address, phone_number } = req.body;
     const join_date = new Date();
     if (isAuthenticated({ name, password }) === true) {
@@ -59,7 +59,7 @@ server.post("/auth/register", (req, res) => {
         // Get current users data
         var data = JSON.parse(data.toString());
 
-        // Get the id of last user        
+        // Get the id of last user
         var last_item_id = data[data.length - 1].id;
 
         //Add new user
@@ -101,22 +101,29 @@ server.post("/auth/register", (req, res) => {
 
 // Login to one of the users from ./users.json
 server.post("/auth/login", (req, res) => {
-    console.log("login endpoint called; request body:");    
+    console.log("login endpoint called; request body:");
     const { name, password } = req.body;
-    const rewriteUserdb = JSON.parse(fs.readFileSync("./users.json", "UTF-8"));    
+    const rewriteUserdb = JSON.parse(fs.readFileSync("./users.json", "UTF-8"));
     const findUser = rewriteUserdb.find(
         (x) => x.name === name && x.password === password
     );
-    const isAuth = rewriteUserdb.findIndex(
-      (user) => user.name === name && user.password === password) !== -1
+    const isAuth =
+        rewriteUserdb.findIndex(
+            (user) => user.name === name && user.password === password
+        ) !== -1;
     if (isAuth === false) {
         const status = 401;
         const message = "Incorrect name or password";
         res.status(status).json({ status, message });
         return;
-    }    
-    const {name: username, address, join_date, phone_number} = findUser
-    const access_token = createToken({name: username, address, join_date, phone_number});
+    }
+    const { name: username, address, join_date, phone_number } = findUser;
+    const access_token = createToken({
+        name: username,
+        address,
+        join_date,
+        phone_number,
+    });
     console.log("Access Token:" + access_token);
     res.status(200).json({ access_token });
 });
@@ -240,7 +247,7 @@ server.put("/products/:id", (req, res, next) => {
 // })
 
 server.use(router);
-
-server.listen(8000, () => {
-    console.log("Run Auth API Server");
+const port = 8000;
+server.listen(port, () => {
+    console.log("Server listening on port " + port);
 });
