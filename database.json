@@ -29,6 +29,48 @@
       "price": 1500,
       "quantity": 129,
       "id": 6
+    },
+    {
+      "name": "Kabel",
+      "price": 1500,
+      "quantity": 129,
+      "id": 7
+    },
+    {
+      "name": "Kabel",
+      "price": 1500,
+      "quantity": 129,
+      "id": 8
+    },
+    {
+      "name": "Mac",
+      "price": "124",
+      "quantity": "22",
+      "id": 9
+    },
+    {
+      "name": "Bakpia",
+      "price": "123",
+      "quantity": "999",
+      "id": 10
+    },
+    {
+      "name": "Bakpia",
+      "price": "123",
+      "quantity": "999",
+      "id": 11
+    },
+    {
+      "name": "Buku",
+      "price": "21",
+      "quantity": "84",
+      "id": 12
+    },
+    {
+      "name": "Mi Pad",
+      "price": "12000000",
+      "quantity": "82",
+      "id": 13
     }
   ]
 }
