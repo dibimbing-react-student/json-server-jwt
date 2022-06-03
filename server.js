@@ -54,16 +54,6 @@ server.post("/auth/register", (req, res) => {
     const { name, password, address, phone_number } = req.body;
     const join_date = new Date();
 
-    if (
-        req.headers.authorization === undefined ||
-        req.headers.authorization.split(" ")[0] !== "Bearer"
-    ) {
-        const status = 401;
-        const message = "Error in authorization format";
-        res.status(status).json({ status, message });
-        return;
-    }
-
     if (isAuthenticated({ name, password }) === true) {
         const status = 401;
         const message = "Account already exist";
