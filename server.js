@@ -22,10 +22,10 @@ server.use(
         origin: true,
         credentials: true,
         preflightContinue: false,
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     })
 );
-server.options('*', cors());
+server.options("*", cors());
 
 // Create a token from a payload
 function createToken(payload) {
@@ -53,6 +53,17 @@ server.post("/auth/register", (req, res) => {
     console.log("register endpoint called; request body:");
     const { name, password, address, phone_number } = req.body;
     const join_date = new Date();
+
+    if (
+        req.headers.authorization === undefined ||
+        req.headers.authorization.split(" ")[0] !== "Bearer"
+    ) {
+        const status = 401;
+        const message = "Error in authorization format";
+        res.status(status).json({ status, message });
+        return;
+    }
+
     if (isAuthenticated({ name, password }) === true) {
         const status = 401;
         const message = "Account already exist";
@@ -142,6 +153,7 @@ server.post("/auth/login", (req, res) => {
 
 // add product
 server.post("/products", (req, res, next) => {
+    console.log(req.headers);
     if (
         req.headers.authorization === undefined ||
         req.headers.authorization.split(" ")[0] !== "Bearer"
